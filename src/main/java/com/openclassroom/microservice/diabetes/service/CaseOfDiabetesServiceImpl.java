@@ -94,7 +94,7 @@ public class CaseOfDiabetesServiceImpl implements CaseOfDiabetesService
 
 			long age = (now.getTime() - birthdate.getTime()) / 86400000 / 365;
 
-			if (trigger == 2 && age > 30)		{
+			if (trigger == 2 && trigger < 6 && age > 30)		{
 				return true;
 			}
 			
