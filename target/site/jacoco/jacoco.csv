@@ -1,0 +1,5 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+PROJET_9_Mediscreen-diabetes,com.openclassroom.microservice.diabetes.service,CaseOfDiabetesServiceImpl,9,293,11,37,6,53,11,20,0,7
+PROJET_9_Mediscreen-diabetes,com.openclassroom.microservice.diabetes.controller,CaseOfDiabetesController,15,23,5,3,4,7,3,3,0,2
+PROJET_9_Mediscreen-diabetes,com.openclassroom.microservice.diabetes,Projet9MediscreenDiabetesApplication,5,4,0,0,2,2,1,2,1,2
+PROJET_9_Mediscreen-diabetes,com.openclassroom.microservice.diabetes.model,CaseOfDiabetes,12,24,0,0,5,11,1,7,1,7

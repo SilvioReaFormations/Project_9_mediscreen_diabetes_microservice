@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CaseOfDiabetesController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PROJET_9_Mediscreen-diabetes</a> &gt; <a href="index.source.html" class="el_package">com.openclassroom.microservice.diabetes.controller</a> &gt; <span class="el_source">CaseOfDiabetesController.java</span></div><h1>CaseOfDiabetesController.java</h1><pre class="source lang-java linenums">package com.openclassroom.microservice.diabetes.controller;
+
+
+import com.openclassroom.microservice.diabetes.model.CaseOfDiabetes;
+import com.openclassroom.microservice.diabetes.service.CaseOfDiabetesService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+<span class="fc" id="L15">public class CaseOfDiabetesController</span>
+{
+	@Autowired
+	CaseOfDiabetesService service;
+	
+	
+	@PostMapping(&quot;/patient/read/{id}/case/getCase&quot;)
+	public String getCase(@PathVariable(&quot;id&quot;) Integer id, @RequestBody CaseOfDiabetes caseOfDiabetes)
+	{
+<span class="fc" id="L24">		String result = &quot;le cas du patient ne correspond à aucun des 4 cas&quot;;</span>
+		
+<span class="fc bfc" id="L26" title="All 2 branches covered.">		if (service.noneCase(caseOfDiabetes))</span>
+		{
+<span class="fc" id="L28">			result = &quot;none&quot;;</span>
+		}
+		
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">		else if (service.borderlineCase(caseOfDiabetes))</span>
+		{
+<span class="fc" id="L33">			result = &quot;borderline&quot;;</span>
+		}
+		
+<span class="nc bnc" id="L36" title="All 2 branches missed.">		else if (service.inDangerCase(caseOfDiabetes))</span>
+		{
+<span class="nc" id="L38">			result = &quot;in danger&quot;;</span>
+		}
+		
+<span class="nc bnc" id="L41" title="All 2 branches missed.">		else if (service.earlyOnsetCase(caseOfDiabetes))</span>
+		{
+<span class="nc" id="L43">			result = &quot;early on set&quot;;</span>
+		}
+		
+	
+<span class="fc" id="L47">		return result;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

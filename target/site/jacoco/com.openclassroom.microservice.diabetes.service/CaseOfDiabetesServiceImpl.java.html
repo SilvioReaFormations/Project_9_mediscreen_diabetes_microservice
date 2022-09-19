@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CaseOfDiabetesServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PROJET_9_Mediscreen-diabetes</a> &gt; <a href="index.source.html" class="el_package">com.openclassroom.microservice.diabetes.service</a> &gt; <span class="el_source">CaseOfDiabetesServiceImpl.java</span></div><h1>CaseOfDiabetesServiceImpl.java</h1><pre class="source lang-java linenums">package com.openclassroom.microservice.diabetes.service;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import org.springframework.stereotype.Service;
+
+import com.openclassroom.microservice.diabetes.model.CaseOfDiabetes;
+
+@Service
+<span class="fc" id="L16">public class CaseOfDiabetesServiceImpl implements CaseOfDiabetesService</span>
+{
+	
+<span class="fc" id="L19">	List&lt;String&gt; diabetesTrigger = new ArrayList&lt;&gt;();</span>
+	
+	public void listInit()
+	{
+		
+<span class="fc" id="L24">		diabetesTrigger.addAll(Arrays.asList(</span>
+				&quot;hémoglobine A1C&quot;, 
+				&quot;microalbumine&quot;, 
+				&quot;taille&quot;,
+				&quot;poids&quot;,
+				&quot;fumeur&quot;,
+				&quot;anormal&quot;,
+				&quot;cholestérol&quot;,
+				&quot;vertige&quot;,
+				&quot;rechute&quot;,
+				&quot;réaction&quot;,
+				&quot;anticorps&quot;));
+<span class="fc" id="L36">	}</span>
+	
+	
+	public int risk(CaseOfDiabetes patient)
+	{
+<span class="fc" id="L41">		diabetesTrigger.clear();</span>
+		
+<span class="fc" id="L43">		listInit();</span>
+		
+<span class="fc" id="L45">		int trigger = 0;</span>
+		
+<span class="fc bfc" id="L47" title="All 2 branches covered.">		for (String split : patient.getPatientNote())</span>
+		{
+<span class="fc bfc" id="L49" title="All 2 branches covered.">			for (String string : diabetesTrigger)</span>
+			{
+				
+<span class="fc bfc" id="L52" title="All 2 branches covered.">				if(split.contains(string))</span>
+				{
+<span class="fc" id="L54">					trigger++;</span>
+				}
+				
+<span class="fc" id="L57">			}</span>
+<span class="fc" id="L58">		}</span>
+<span class="fc" id="L59">		return trigger;</span>
+		
+	}
+	
+
+	@Override
+	public boolean noneCase(CaseOfDiabetes patient)
+	{
+		
+<span class="fc" id="L68">		int trigger = risk(patient);</span>
+		
+<span class="fc bfc" id="L70" title="All 2 branches covered.">		if (trigger == 0)</span>
+		{
+<span class="fc" id="L72">			return true;</span>
+		}
+		
+		
+<span class="fc" id="L76">		return false;</span>
+		
+	}
+
+
+
+	@Override
+	public boolean borderlineCase(CaseOfDiabetes patient)
+	{
+		
+		try
+		{
+			
+<span class="fc" id="L89">			int trigger = risk(patient);</span>
+			
+<span class="fc" id="L91">			SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;, Locale.FRENCH);</span>
+<span class="fc" id="L92">			Date birthdate = sdf.parse(patient.getPatientBirthdate());</span>
+<span class="fc" id="L93">			Date now = new Date();</span>
+
+<span class="fc" id="L95">			long age = (now.getTime() - birthdate.getTime()) / 86400000 / 365;</span>
+
+<span class="pc bpc" id="L97" title="2 of 6 branches missed.">			if (trigger == 2 &amp;&amp; trigger &lt; 6 &amp;&amp; age &gt; 30)		{</span>
+<span class="fc" id="L98">				return true;</span>
+			}
+			
+		} 
+		
+<span class="nc" id="L103">		catch (ParseException e)</span>
+		{
+			// TODO Auto-generated catch block
+<span class="nc" id="L106">			e.printStackTrace();</span>
+<span class="fc" id="L107">		}</span>
+		
+		
+<span class="fc" id="L110">		return false;</span>
+		
+	}
+
+
+
+	@Override
+	public boolean inDangerCase(CaseOfDiabetes patient)
+	{
+		
+		try
+		{
+			
+<span class="fc" id="L123">			int trigger = risk(patient);</span>
+			
+<span class="fc" id="L125">			SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;, Locale.FRENCH);</span>
+<span class="fc" id="L126">			Date birthdate = sdf.parse(patient.getPatientBirthdate());</span>
+<span class="fc" id="L127">			Date now = new Date();</span>
+
+<span class="fc" id="L129">			long age = (now.getTime() - birthdate.getTime()) / 86400000 / 365;</span>
+
+			
+			
+<span class="pc bpc" id="L133" title="1 of 6 branches missed.">			if (trigger == 3 &amp;&amp; age &lt;= 30 &amp;&amp; patient.getPatientGender().equals(&quot;M&quot;))		{</span>
+<span class="fc" id="L134">				return true;</span>
+			}
+			
+<span class="pc bpc" id="L137" title="2 of 6 branches missed.">			else if (trigger == 4 &amp;&amp; age &lt;= 30 &amp;&amp; patient.getPatientGender().equals(&quot;F&quot;))		{</span>
+<span class="fc" id="L138">				return true;</span>
+			}
+			
+<span class="pc bpc" id="L141" title="2 of 6 branches missed.">			else if (trigger &gt;= 6 &amp;&amp; trigger &lt; 8 &amp;&amp; age &gt; 30)		{</span>
+<span class="fc" id="L142">				return true;</span>
+			}
+			
+			
+		} 
+		
+<span class="nc" id="L148">		catch (ParseException e)</span>
+		{
+			// TODO Auto-generated catch block
+<span class="nc" id="L151">			e.printStackTrace();</span>
+<span class="fc" id="L152">		}</span>
+		
+		
+<span class="fc" id="L155">		return false;</span>
+		
+	}
+
+
+
+	@Override
+	public boolean earlyOnsetCase(CaseOfDiabetes patient)
+{
+		
+		try
+		{
+			
+<span class="fc" id="L168">			int trigger = risk(patient);</span>
+			
+<span class="fc" id="L170">			SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;, Locale.FRENCH);</span>
+<span class="fc" id="L171">			Date birthdate = sdf.parse(patient.getPatientBirthdate());</span>
+<span class="fc" id="L172">			Date now = new Date();</span>
+
+<span class="fc" id="L174">			long age = (now.getTime() - birthdate.getTime()) / 86400000 / 365;</span>
+
+			
+			
+<span class="pc bpc" id="L178" title="1 of 6 branches missed.">			if (trigger == 5 &amp;&amp; age &lt;= 30 &amp;&amp; patient.getPatientGender().equals(&quot;M&quot;))		{</span>
+<span class="fc" id="L179">				return true;</span>
+			}
+			
+<span class="pc bpc" id="L182" title="2 of 6 branches missed.">			else if (trigger == 7 &amp;&amp; age &lt;= 30 &amp;&amp; patient.getPatientGender().equals(&quot;F&quot;))		{</span>
+<span class="fc" id="L183">				return true;</span>
+			}
+			
+<span class="pc bpc" id="L186" title="1 of 4 branches missed.">			else if (trigger &gt;= 8 &amp;&amp; age &gt; 30)		{</span>
+<span class="fc" id="L187">				return true;</span>
+			}
+			
+			
+		} 
+		
+<span class="nc" id="L193">		catch (ParseException e)</span>
+		{
+			// TODO Auto-generated catch block
+<span class="nc" id="L196">			e.printStackTrace();</span>
+<span class="fc" id="L197">		}</span>
+		
+		
+<span class="fc" id="L200">		return false;</span>
+		
+	}
+	
+	
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

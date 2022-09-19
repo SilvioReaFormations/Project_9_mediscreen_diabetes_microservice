@@ -1,0 +1,5 @@
+com\openclassroom\microservice\diabetes\service\CaseOfDiabetesService.class
+com\openclassroom\microservice\diabetes\Projet9MediscreenDiabetesApplication.class
+com\openclassroom\microservice\diabetes\service\CaseOfDiabetesServiceImpl.class
+com\openclassroom\microservice\diabetes\controller\CaseOfDiabetesController.class
+com\openclassroom\microservice\diabetes\model\CaseOfDiabetes.class
